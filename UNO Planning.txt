@@ -42,6 +42,8 @@ Cards Stack
 	attributes
 		cards: array/list of cards
 		size: number of remaining cards
+		faceUp: boolean
 	functions:
 		pop: return next card in the stack and size--
-		pick: return the chosen card and size--
+		peek: return next card in the stack
+		chose: return the chosen card and size--
