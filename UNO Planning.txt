@@ -14,10 +14,10 @@
 - Who starts?
 - Turns
 	- Look at previous player action
-	- Timer
+	- Timer (not priority)
 	- See possibilities
 	- Place a card or take a card
-	- Check UNO!
+	- Check UNO! (not priority)
 	- Check win
 	- Do action
 
@@ -26,11 +26,15 @@ Game Manager
 	functions
 		allowAction
 			Should check if the action that the cpu wants to do is valid or not
+		continue
+			Should check win conditions and tell next player to start their turn
 	
 Cards Dealer
 	functions
+		remixCards
+			Should mix the cards in the Used Cards deck and fill the Available cards deck
 		dealCards
-			Should mix the deck and fill the CPUs' cards
+			Should mix all the cards and fill the CPUs' cards
 		
 CPU Players
 	functions
@@ -38,12 +42,11 @@ CPU Players
 			Should look into its card stack, the size of the oponent's stack and the used Cards and decide
 			Must call GameManager.allowAction
 			
-Cards Stack
+Cards
 	attributes
 		cards: array/list of cards
 		size: number of remaining cards
-		faceUp: boolean
 	functions:
-		pop: return next card in the stack and size--
-		peek: return next card in the stack
-		choose: return the chosen card and size--
+		take: return last card and size--
+		peek: return last card
+		choose: return card at index X and size--
