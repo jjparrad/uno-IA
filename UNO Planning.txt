@@ -1,0 +1,47 @@
+
+
+
+
+- Explore Godot
+- Create the repository
+- Deck of cards
+- 2 slots for players
+- Card dealing
+	- Cards of the players
+	- Cards in the center
+	- Discard cards
+	- First card
+- Who starts?
+- Turns
+	- Look at previous player action
+	- Timer
+	- See possibilities
+	- Place a card or take a card
+	- Check UNO!
+	- Check win
+	- Do action
+
+
+Game Manager
+	functions
+		allowAction
+			Should check if the action that the cpu wants to do is valid or not
+	
+Cards Dealer
+	functions
+		dealCards
+			Should mix the deck and fill the CPUs' cards
+		
+CPU Players
+	functions
+		startTurn
+			Should look into its card stack, the size of the oponent's stack and the used Cards and decide
+			Must call GameManager.allowAction
+			
+Cards Stack
+	attributes
+		cards: array/list of cards
+		size: number of remaining cards
+	functions:
+		pop: return next card in the stack and size--
+		pick: return the chosen card and size--

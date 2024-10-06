@@ -1,0 +1,3 @@
+[gd_scene format=3 uid="uid://dm6svmnqhmt3j"]
+
+[node name="CPU Player" type="Node2D"]

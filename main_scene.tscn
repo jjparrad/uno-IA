@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://3ouhhsu4t4t7"]
+
+[ext_resource type="PackedScene" uid="uid://c41ym3qrax1x1" path="res://cards_dealer.tscn" id="1_rev5k"]
+[ext_resource type="PackedScene" uid="uid://b8667auin1fou" path="res://game_manager.tscn" id="2_qhqdo"]
+[ext_resource type="PackedScene" uid="uid://dm6svmnqhmt3j" path="res://cpu_player.tscn" id="3_lmmgj"]
+[ext_resource type="PackedScene" uid="uid://cp7teq4spu75h" path="res://cards_stack.tscn" id="4_wuyp8"]
+
+[node name="Game table" type="Node2D"]
+
+[node name="Game manager" parent="." instance=ExtResource("2_qhqdo")]
+
+[node name="Cards dealer" parent="." instance=ExtResource("1_rev5k")]
+
+[node name="CPU Player" parent="." instance=ExtResource("3_lmmgj")]
+
+[node name="Cards stack" parent="CPU Player" instance=ExtResource("4_wuyp8")]
+
+[node name="CPU Player2" parent="." instance=ExtResource("3_lmmgj")]
+
+[node name="Cards stack" parent="CPU Player2" instance=ExtResource("4_wuyp8")]
+
+[node name="Available cards" parent="." instance=ExtResource("4_wuyp8")]
+
+[node name="Used cards" parent="." instance=ExtResource("4_wuyp8")]
