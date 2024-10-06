@@ -46,4 +46,4 @@ Cards Stack
 	functions:
 		pop: return next card in the stack and size--
 		peek: return next card in the stack
-		chose: return the chosen card and size--
+		choose: return the chosen card and size--
