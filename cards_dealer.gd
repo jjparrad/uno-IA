@@ -1,8 +1,9 @@
 extends Node
 
-@export var cardsPerPlayer: int = 4
+@export var cardsPerPlayer: int = 10
 
 var deck: Array = []
+var cards = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -29,17 +30,19 @@ func create_deck():
 	deck.append(Card.new(Card.CardColor.WILD, Card.CardType.WILD_DRAW_FOUR))
 	
 func dealCards() -> void:
+	#deck = cards;
+	deck.shuffle()
 	var player1Cards = deck.slice(0, cardsPerPlayer)
 	var player2Cards = deck.slice(cardsPerPlayer, cardsPerPlayer * 2)
-	var availableCards = deck.slice(-1, cardsPerPlayer * 2 - 1, -1)
+	var availableCards = deck.slice(-2, cardsPerPlayer * 2 - 1, -1)
+	var firstCard = deck[deck.size() - 1]
 	
-	var player1Deck = get_node("CPU Player/Player cards")
-	player1Deck = player1Cards
+	#var player1Deck = get_node("Player cards")
 	
-	
-	print(player1Cards)
+	print(player1Cards[5].color)
 	print(player2Cards)
 	print(availableCards)
+	print(firstCard)
 	
 func reshuffleCards() -> void:
 	#var usedCards = get_node("Used cards")
