@@ -3,7 +3,6 @@ extends Node
 @export var cardsPerPlayer: int = 4
 
 var deck: Array = []
-var cards = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 0 ]
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
