@@ -1,34 +1,7 @@
 # extends Reference
 extends Node
 
-# Called when the node enters the scene tree for the first time.
-#func _ready() -> void:
-	#pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta: float) -> void:
-	#pass
-
-
-enum CardColor {
-	RED,
-	YELLOW,
-	GREEN,
-	BLUE,
-	WILD
-}
-
-enum CardType {
-	NUMBER,
-	SKIP,
-	REVERSE,
-	DRAW_TWO,
-	WILD,
-	WILD_DRAW_FOUR
-}
-
-class Card:
+class CardDeck:
 	var color: int
 	var type: int
 	var value: int # For numbered cards, this is 0-9; for others, it's ignored
@@ -40,23 +13,21 @@ class Card:
 
 var deck: Array = []
 
-func create_deck():
-	# Add numbered cards
-	for color in [CardColor.RED, CardColor.YELLOW, CardColor.GREEN, CardColor.BLUE]:
-		for number in range(10): # 0-9
-			deck.append(Card.new(color, CardType.NUMBER, number))
-			if number > 0: # Each color has two of 1-9
-				deck.append(Card.new(color, CardType.NUMBER, number))
-
-	# Add action cards
-	for color in [CardColor.RED, CardColor.YELLOW, CardColor.GREEN, CardColor.BLUE]:
-		deck.append(Card.new(color, CardType.SKIP))
-		deck.append(Card.new(color, CardType.REVERSE))
-		deck.append(Card.new(color, CardType.DRAW_TWO))
-
-	# Add wild cards
-	deck.append(Card.new(CardColor.WILD, CardType.WILD))
-	deck.append(Card.new(CardColor.WILD, CardType.WILD_DRAW_FOUR))
-
-	# Shuffle the deck if needed
-	# deck.shuffle() #built in function that shuffles the array of decks
+func take():
+	deck.slice(0,deck.size()-1) #remove the card on top of the available cards
+	# return availableCards[0]
+	
+func peek():
+	#return last card
+	return deck[0]
+	
+func choose(index: int):
+	# switch the chosen card in the deck with the first card [0]
+	var temp = deck[index]
+	deck[index] = deck[0]
+	deck[0] = temp
+	# slice the player's deck [0,playerDeck.size()]
+	deck.slice(0, deck.size()-1)
+		
+# Shuffle the deck if needed
+# deck.shuffle() #built in function that shuffles the array of decks
