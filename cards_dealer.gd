@@ -3,12 +3,7 @@ extends Node
 @export var cardsPerPlayer: int = 10
 
 var deck: Array = []
-var cards = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	create_deck()
-	dealCards()
+# var cards = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
 func create_deck():
 	var colors = [Card.CardColor.RED, Card.CardColor.YELLOW, Card.CardColor.GREEN, Card.CardColor.BLUE]
@@ -30,27 +25,28 @@ func create_deck():
 	deck.append(Card.new(Card.CardColor.WILD, Card.CardType.WILD_DRAW_FOUR))
 	
 func dealCards() -> void:
-	#deck = cards;
 	deck.shuffle()
+	
 	var player1Cards = deck.slice(0, cardsPerPlayer)
+	var player1Deck = get_node("../CPU Player/Cards")
+	player1Deck.deck = player1Cards
+	
 	var player2Cards = deck.slice(cardsPerPlayer, cardsPerPlayer * 2)
+	var player2Deck = get_node("CPU Player 2/Player cards")
+	player2Deck.deck = player2Cards
+	
 	var availableCards = deck.slice(-2, cardsPerPlayer * 2 - 1, -1)
+	var pioche = get_node("../Available Cards")
+	pioche.deck = availableCards
+	
 	var firstCard = deck[deck.size() - 1]
-	
-	#var player1Deck = get_node("Player cards")
-	
-	print(player1Cards[5].color)
-	print(player2Cards)
-	print(availableCards)
-	print(firstCard)
+	var used = get_node("../Used Cards")
+	used.deck = firstCard
 	
 func reshuffleCards() -> void:
-	#var usedCards = get_node("Used cards")
-	var usedCards = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 0 ]
+	var usedCards = get_node("Used cards").deck
 	usedCards.shuffle()
 	
-	#var availableCards = get_node("Used cards")
-	var availableCards = []
-	availableCards = usedCards
-	print(availableCards)
-	
+	var availableCards = get_node("Available cards").deck
+	availableCards = usedCards.slice(1, usedCards.size())
+	usedCards = usedCards.slice(0, 1)
