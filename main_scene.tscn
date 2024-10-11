@@ -12,6 +12,7 @@
 script = ExtResource("2_4kmv1")
 
 [node name="Cards dealer" parent="." instance=ExtResource("1_rev5k")]
+cardsPerPlayer = 6
 
 [node name="CPU Player" parent="." instance=ExtResource("3_lmmgj")]
 

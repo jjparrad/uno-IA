@@ -1,7 +1,7 @@
 # extends Reference
 extends Node
 
-var deck: Array = []
+var deck: Array[Card] = []
 
 func take():
 	deck.slice(0,deck.size()-1) #remove the card on top of the available cards
@@ -19,3 +19,6 @@ func choose(index: int):
 	# slice the player's deck [0,playerDeck.size()]
 	deck.slice(0, deck.size()-1)
 	
+func print(): 
+	for card in deck:
+		card.print()
