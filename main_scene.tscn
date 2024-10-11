@@ -8,6 +8,8 @@
 
 [node name="Game table" type="Node2D"]
 
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
 [node name="Game manager" parent="." instance=ExtResource("2_qhqdo")]
 script = ExtResource("2_4kmv1")
 
