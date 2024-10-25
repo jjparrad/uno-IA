@@ -1,54 +1,94 @@
-[gd_scene load_steps=10 format=3 uid="uid://3ouhhsu4t4t7"]
+[gd_scene load_steps=11 format=3 uid="uid://3ouhhsu4t4t7"]
 
 [ext_resource type="Texture2D" uid="uid://c8nk5kfytryeb" path="res://assets/casino.jpg" id="1_1q2wr"]
 [ext_resource type="Texture2D" uid="uid://b01fe7efu8yh4" path="res://assets/table.png" id="1_q5c5x"]
 [ext_resource type="PackedScene" uid="uid://c41ym3qrax1x1" path="res://cards_dealer.tscn" id="1_rev5k"]
-[ext_resource type="Script" path="res://game_manager_temp.gd" id="2_4kmv1"]
 [ext_resource type="PackedScene" uid="uid://b8667auin1fou" path="res://game_manager.tscn" id="2_qhqdo"]
 [ext_resource type="PackedScene" uid="uid://dm6svmnqhmt3j" path="res://cpu_player.tscn" id="3_lmmgj"]
+[ext_resource type="Script" path="res://game_manager.gd" id="4_pefff"]
 [ext_resource type="PackedScene" uid="uid://cp7teq4spu75h" path="res://cards.tscn" id="4_wuyp8"]
 [ext_resource type="Texture2D" uid="uid://qwso8aivq314" path="res://assets/robot1.png" id="7_1xfe4"]
 [ext_resource type="Texture2D" uid="uid://bkb5wp0hb273m" path="res://assets/robot2.png" id="8_5wrfc"]
+
+[sub_resource type="GDScript" id="GDScript_5txys"]
+script/source = "extends Sprite2D
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+"
 
 [node name="Game table" type="Node2D"]
 position = Vector2(572, 780)
 
 [node name="Casino" type="Sprite2D" parent="."]
-position = Vector2(-41, -418)
-scale = Vector2(2.12206, 2.12206)
+position = Vector2(5.7825, -449.375)
+scale = Vector2(1.95048, 1.97279)
 texture = ExtResource("1_1q2wr")
+script = SubResource("GDScript_5txys")
+metadata/_edit_lock_ = true
 
 [node name="Table" type="Sprite2D" parent="."]
+position = Vector2(42, 0)
 scale = Vector2(0.851158, 0.851158)
 texture = ExtResource("1_q5c5x")
 metadata/_edit_group_ = true
+metadata/_edit_lock_ = true
 
 [node name="Game manager" parent="." instance=ExtResource("2_qhqdo")]
-script = ExtResource("2_4kmv1")
+script = ExtResource("4_pefff")
 
 [node name="Cards dealer" parent="." instance=ExtResource("1_rev5k")]
 cardsPerPlayer = 6
 
 [node name="CPU Player" parent="." instance=ExtResource("3_lmmgj")]
-position = Vector2(194, -394)
+position = Vector2(243, -394)
 metadata/_edit_group_ = true
+metadata/_edit_lock_ = true
 
 [node name="Player cards" parent="CPU Player" instance=ExtResource("4_wuyp8")]
+position = Vector2(200, -200)
 
 [node name="Sprite2D" type="Sprite2D" parent="CPU Player"]
 scale = Vector2(0.23, 0.23)
 texture = ExtResource("7_1xfe4")
 
 [node name="CPU Player 2" parent="." instance=ExtResource("3_lmmgj")]
-position = Vector2(-224, -391)
+position = Vector2(-175, -391)
 metadata/_edit_group_ = true
+metadata/_edit_lock_ = true
 
 [node name="Player cards" parent="CPU Player 2" instance=ExtResource("4_wuyp8")]
+position = Vector2(-200, -200)
 
 [node name="Sprite2D" type="Sprite2D" parent="CPU Player 2"]
 scale = Vector2(0.121333, 0.121333)
 texture = ExtResource("8_5wrfc")
 
 [node name="Available cards" parent="." instance=ExtResource("4_wuyp8")]
+position = Vector2(100, -200)
+
+[node name="Remaining Label" type="Label" parent="Available cards"]
+offset_left = 38.0
+offset_top = -39.0
+offset_right = 63.0
+offset_bottom = -16.0
+text = "11"
 
 [node name="Used cards" parent="." instance=ExtResource("4_wuyp8")]
+position = Vector2(-100, -200)
+
+[node name="Button" type="Button" parent="."]
+offset_left = -47.0
+offset_top = -634.0
+offset_right = 94.0
+offset_bottom = -574.0
+text = "Next"
+
+[connection signal="pressed" from="Button" to="Game manager" method="handleNextClick"]

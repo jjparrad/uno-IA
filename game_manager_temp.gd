@@ -9,6 +9,9 @@ func _ready() -> void:
 	
 	var player1Cards = get_node("../CPU Player/Player cards")
 	
+	var availableCards = get_node("../Available cards")
+	player1Cards.display()
+	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
