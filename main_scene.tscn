@@ -1,16 +1,19 @@
-[gd_scene load_steps=13 format=3 uid="uid://3ouhhsu4t4t7"]
+[gd_scene load_steps=18 format=3 uid="uid://3ouhhsu4t4t7"]
 
-[ext_resource type="Texture2D" uid="uid://c8nk5kfytryeb" path="res://assets/casino.jpg" id="1_1q2wr"]
 [ext_resource type="Texture2D" uid="uid://b01fe7efu8yh4" path="res://assets/table.png" id="1_q5c5x"]
 [ext_resource type="PackedScene" uid="uid://c41ym3qrax1x1" path="res://cards_dealer.tscn" id="1_rev5k"]
+[ext_resource type="Texture2D" uid="uid://b8ldaa22mrf4n" path="res://assets/background.jpg" id="1_yypmx"]
 [ext_resource type="PackedScene" uid="uid://b8667auin1fou" path="res://game_manager.tscn" id="2_qhqdo"]
 [ext_resource type="PackedScene" uid="uid://dm6svmnqhmt3j" path="res://cpu_player.tscn" id="3_lmmgj"]
 [ext_resource type="Script" path="res://game_manager.gd" id="4_pefff"]
 [ext_resource type="PackedScene" uid="uid://cp7teq4spu75h" path="res://cards.tscn" id="4_wuyp8"]
-[ext_resource type="Texture2D" uid="uid://qwso8aivq314" path="res://assets/robot1.png" id="7_1xfe4"]
 [ext_resource type="Texture2D" uid="uid://bkb5wp0hb273m" path="res://assets/robot2.png" id="8_5wrfc"]
+[ext_resource type="Texture2D" uid="uid://b1mky5xhwc6og" path="res://assets/robot1.webp" id="8_6ikrm"]
 [ext_resource type="Script" path="res://strategy1.gd" id="9_mb3kq"]
 [ext_resource type="Script" path="res://strategy2.gd" id="11_yre2y"]
+[ext_resource type="StyleBox" uid="uid://bsear4vfhb7t8" path="res://assets/button_styles/button_focus_style.tres" id="12_k6em7"]
+[ext_resource type="StyleBox" uid="uid://ic2w5brr4vqu" path="res://assets/button_styles/button_hover_style.tres" id="13_a4aow"]
+[ext_resource type="StyleBox" uid="uid://totw0j1lhp3u" path="res://assets/button_styles/button_style.tres" id="14_d75qd"]
 
 [sub_resource type="GDScript" id="GDScript_5txys"]
 script/source = "extends Sprite2D
@@ -26,22 +29,31 @@ func _process(delta: float) -> void:
 	pass
 "
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_j12c0"]
+
+[sub_resource type="Theme" id="Theme_m3vde"]
+Button/colors/font_color = Color(1, 0.894118, 0.898039, 1)
+Button/styles/focus = SubResource("StyleBoxEmpty_j12c0")
+Button/styles/hover = ExtResource("13_a4aow")
+Button/styles/normal = ExtResource("14_d75qd")
+Button/styles/pressed = ExtResource("12_k6em7")
+
 [node name="Game table" type="Node2D"]
 position = Vector2(572, 780)
 
-[node name="Casino" type="Sprite2D" parent="."]
-position = Vector2(5.7825, -449.375)
-scale = Vector2(1.95048, 1.97279)
-texture = ExtResource("1_1q2wr")
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(9.51758, -451.5)
+scale = Vector2(0.606947, 0.613889)
+texture = ExtResource("1_yypmx")
 script = SubResource("GDScript_5txys")
 metadata/_edit_lock_ = true
 
 [node name="Table" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(42, 0)
 scale = Vector2(0.851158, 0.851158)
 texture = ExtResource("1_q5c5x")
 metadata/_edit_group_ = true
-metadata/_edit_lock_ = true
 
 [node name="Game manager" parent="." instance=ExtResource("2_qhqdo")]
 script = ExtResource("4_pefff")
@@ -50,27 +62,28 @@ script = ExtResource("4_pefff")
 cardsPerPlayer = 6
 
 [node name="CPU Player" parent="." instance=ExtResource("3_lmmgj")]
-position = Vector2(243, -394)
+position = Vector2(-463, -210)
 metadata/_edit_group_ = true
 metadata/_edit_lock_ = true
 
 [node name="Player cards" parent="CPU Player" instance=ExtResource("4_wuyp8")]
-position = Vector2(200, -200)
+position = Vector2(0, -500)
 
 [node name="Sprite2D" type="Sprite2D" parent="CPU Player"]
-scale = Vector2(0.23, 0.23)
-texture = ExtResource("7_1xfe4")
+position = Vector2(34, 37.2583)
+scale = Vector2(0.286667, 0.286667)
+texture = ExtResource("8_6ikrm")
 
 [node name="Strategy" type="Node" parent="CPU Player"]
 script = ExtResource("9_mb3kq")
 
 [node name="CPU Player 2" parent="." instance=ExtResource("3_lmmgj")]
-position = Vector2(-175, -391)
+position = Vector2(440, -218)
 metadata/_edit_group_ = true
 metadata/_edit_lock_ = true
 
 [node name="Player cards" parent="CPU Player 2" instance=ExtResource("4_wuyp8")]
-position = Vector2(-200, -200)
+position = Vector2(0, -500)
 
 [node name="Sprite2D" type="Sprite2D" parent="CPU Player 2"]
 scale = Vector2(0.121333, 0.121333)
@@ -80,23 +93,27 @@ texture = ExtResource("8_5wrfc")
 script = ExtResource("11_yre2y")
 
 [node name="Available cards" parent="." instance=ExtResource("4_wuyp8")]
-position = Vector2(100, -200)
+position = Vector2(100, -500)
+cardsScale = 0.5
 
 [node name="Remaining Label" type="Label" parent="Available cards"]
-offset_left = 38.0
-offset_top = -39.0
-offset_right = 63.0
-offset_bottom = -16.0
+offset_left = 95.0
+offset_top = 77.0
+offset_right = 120.175
+offset_bottom = 100.0
 text = "11"
+metadata/_edit_use_anchors_ = true
 
 [node name="Used cards" parent="." instance=ExtResource("4_wuyp8")]
-position = Vector2(-100, -200)
+position = Vector2(-100, -500)
+cardsScale = 0.5
 
 [node name="Button" type="Button" parent="."]
-offset_left = -47.0
-offset_top = -634.0
-offset_right = 94.0
-offset_bottom = -574.0
+offset_left = -75.0
+offset_top = -200.0
+offset_right = 75.0
+offset_bottom = -140.0
+theme = SubResource("Theme_m3vde")
 text = "Next"
 
 [connection signal="pressed" from="Button" to="Game manager" method="handleNextClick"]
