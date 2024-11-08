@@ -1,7 +1,4 @@
 
-
-
-
 - Explore Godot
 - Create the repository
 - Deck of cards
@@ -50,3 +47,30 @@ Cards
 		take: return last card and size--
 		peek: return last card
 		choose: return card at index X and size--
+
+
+
+
+CPU PLAYER AGENT PSEUDO CODE:
+	
+func _process(delta: float) -> void:
+	 if (jeReflechie && !gameEnv.someOneIsThinking) {
+		arreterDeReflechir()
+	}
+	
+	 if (jeReflechie) {
+		return
+	}
+	
+	GameEnvironement gameEnv = gameManager.getEnvironment();
+	if (gameEnv.cestAMoi) {
+		gameManager.jeReflechie()
+		reflechir()
+		gameManager.jeJoue()
+		jouer()
+	} else if (gameEnv.someOneIsThinking) {
+		reflechir()
+		if (canSteal(gameEnv)) {
+			gameManager.stealTurn()
+		}
+	}
