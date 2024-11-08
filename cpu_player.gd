@@ -47,16 +47,8 @@ func play(last_card: Card, numberOfCardsRival: int, numberOfCardsPioche: int, to
 			draw(1)
 		return null
 	
-	var chosenCard: Card = choose(playableCards, numberOfCardsRival, numberOfCardsPioche)
+	var chosenCard: Card = get_node("Strategy").chooseCard(playableCards, numberOfCardsRival, numberOfCardsPioche, playStack)
 	get_node("Player cards").eraseCard(chosenCard)
 	playStack.append(chosenCard)
 	myLastPlayedCardId = chosenCard.id
 	return chosenCard
-
-
-func choose(playableCards: Array, numberOfCardsRival: int, numberOfCardsPioche: int) -> Card:
-	# Some strategy algorithm
-	var card: Card = playableCards[0]
-	if card.type == Card.CardType.WILD or card.type == Card.CardType.WILD_DRAW_FOUR:
-		card.color = Card.CardColor.RED
-	return card
