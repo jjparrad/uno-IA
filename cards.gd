@@ -2,7 +2,6 @@
 extends Node
 
 @export var offsetBetweenCards: int = 20
-@export var cardsScale: float = 0.2
 
 var deck: Array[Card] = []
 var cardSprites: Dictionary = {}
@@ -25,7 +24,7 @@ func addCardToDeck(card: Card):
 	cardSprites[card] = sprite2d
 	var texture = load("res://assets/cards/" + card.image_path  + ".png")
 	sprite2d.texture = texture
-	sprite2d.scale = Vector2(cardsScale, cardsScale)
+	sprite2d.scale = Vector2(0.2, 0.2)
 	add_child(sprite2d)
 	
 func addCardsToDeck(cards: Array[Card]):
@@ -43,7 +42,7 @@ func display():
 		cardSprites[card] = sprite2d
 		var texture = load("res://assets/cards/" + card.image_path  + ".png")
 		sprite2d.texture = texture
-		sprite2d.scale = Vector2(cardsScale, cardsScale)
+		sprite2d.scale = Vector2(0.2, 0.2)
 		sprite2d.position.y = offsetBetweenCards * index
 		add_child(sprite2d)
 		
@@ -62,14 +61,14 @@ func displayLast():
 	var sprite2d = Sprite2D.new()
 	var texture = load("res://assets/cards/" + card.image_path  + ".png")
 	sprite2d.texture = texture
-	sprite2d.scale = Vector2(cardsScale, cardsScale)
+	sprite2d.scale = Vector2(0.2, 0.2)
 	add_child(sprite2d)
 
 func createRemainingLabel():
 	var sprite2d = Sprite2D.new()
 	var texture = load("res://assets/cards/card.png")
 	sprite2d.texture = texture
-	sprite2d.scale = Vector2(cardsScale * 0.58, cardsScale * 0.58)
+	sprite2d.scale = Vector2(0.12, 0.12)
 	add_child(sprite2d)
 	updateRemainingLabel()
 

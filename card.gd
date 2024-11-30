@@ -36,18 +36,18 @@ var enum_types = {
 	CardType.WILD_DRAW_FOUR: "+4"
 }
 
+var id: int
 var color: CardColor
 var type: CardType
 var value: int # For numbered cards, this is 0-9; for others, it's -1
 var image_path: String
 var active: bool # for keeping track if a +2 or a +4 has already been used
-var id: int
 
 func _init(col, typ, ide, val = -1):
+	id = ide
 	color = col
 	type = typ
 	value = val
-	id = ide
 	image_path = getImagePath()
 	
 func getImagePath():

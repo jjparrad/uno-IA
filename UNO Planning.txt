@@ -52,25 +52,29 @@ Cards
 
 
 CPU PLAYER AGENT PSEUDO CODE:
-	
+
+var lastActivePlayer
+var playerId
+
 func _process(delta: float) -> void:
-	 if (jeReflechie && !gameEnv.someOneIsThinking) {
+	if (gameManager.pause) {
+		return
+	}
+	
+	if (lastActivePlayer != lastActivePlayer && jeReflechie()) {
 		arreterDeReflechir()
 	}
 	
-	 if (jeReflechie) {
+	if (jeReflechie()) {
 		return
 	}
 	
 	GameEnvironement gameEnv = gameManager.getEnvironment();
+	reflechir()
 	if (gameEnv.cestAMoi) {
-		gameManager.jeReflechie()
-		reflechir()
 		gameManager.jeJoue()
 		jouer()
-	} else if (gameEnv.someOneIsThinking) {
-		reflechir()
-		if (canSteal(gameEnv)) {
-			gameManager.stealTurn()
-		}
+	} else if (canSteal(gameEnv)) {
+		gameManager.stealTurn(playerId)
+		jouer()
 	}

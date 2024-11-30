@@ -1,6 +1,5 @@
 extends Node
-
-@export var cardsPerPlayer: int = 10
+var cardsPerPlayer: int = 10
 
 var deck: Array[Card] = []
 # var cards = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
@@ -60,7 +59,19 @@ func dealCards() -> void:
 	print("Player 2 cards:")
 	player2Deck.print()
 	
-	var availableCards = deck.slice(-1, cardsPerPlayer * 2 - 1, -1)
+	var player3Cards = deck.slice(cardsPerPlayer * 2, cardsPerPlayer * 3)
+	var player3Deck = get_node("../CPU Player 3/Player cards")
+	player3Deck.deck = player3Cards
+	print("Player 3 cards:")
+	player3Deck.print()
+	
+	var player4Cards = deck.slice(cardsPerPlayer * 3, cardsPerPlayer * 4)
+	var player4Deck = get_node("../CPU Player 4/Player cards")
+	player4Deck.deck = player4Cards
+	print("Player 4 cards:")
+	player4Deck.print()
+	
+	var availableCards = deck.slice(-1, cardsPerPlayer * 4 - 1, -1)
 	var pioche = get_node("../Available cards")
 	pioche.deck = availableCards
 	print("Available cards:")

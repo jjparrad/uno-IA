@@ -1,109 +1,107 @@
 extends Node
 
-@onready var cpu_player_1: Node2D = $"../CPU Player"
-@onready var cpu_player_2: Node2D = $"../CPU Player 2"
-@onready var player_cards_1: Node2D = $"../CPU Player/Player cards"
-@onready var player_cards_2: Node2D = $"../CPU Player 2/Player cards"
 @onready var available_cards: Node2D = $"../Available cards"
 @onready var used_cards: Node2D = $"../Used cards"
 @onready var cards_dealer: Node = $"../Cards dealer"
 
-var player1_turn: bool = true 
-var current_card: Card
-var nextPressed: bool = false
-var totalDraw: int = 0
+@export var cardsPerPlayer: int = 6
+@export var numberOfPlayers: int = 4
+var reverse: bool = false
+var pause = true
+var winner = false
+var currentEnvironment: GameEnvironment
 
 # initialisation, begin game!
 func _ready() -> void:
+	cards_dealer.cardsPerPlayer = cardsPerPlayer
 	cards_dealer.create_deck()
 	cards_dealer.dealCards()
 	displayCards()
-	player1_turn = true 
-
-func _process(delta: float) -> void:
-	if nextPressed:
-		continue_game()
-		nextPressed = false
-
-func handleNextClick():
-	nextPressed = true
-
+	currentEnvironment = GameEnvironment.new(0, used_cards.getLastCard(), numberOfPlayers, cardsPerPlayer, available_cards.deck.size())
+	
 func displayCards():
-	player_cards_1.display()
-	player_cards_2.display()
 	used_cards.displayLast()
 	available_cards.createRemainingLabel()
 
-# vérifier si le jeu est fini, sinon on continue
-func continue_game() -> void:
-	if player1_turn:
-		current_card = playTurn(cpu_player_1)
-	else:
-		current_card = playTurn(cpu_player_2)
-		
-	player_cards_1.updateCardsPositions()
-	player_cards_2.updateCardsPositions()
-	available_cards.updateRemainingLabel()
+func handleNextClick():
+	pause = !pause
+
+func getEnvironment() -> GameEnvironment:
+	return currentEnvironment
+
+func canPlay(player: int):
+	if winner: return false
+	if pause: return false
+	currentEnvironment.playerOnTurn = player
+	pause = true
+	return true
 	
-	if player_cards_1.deck.size() == 0:
-		print("Le joueur 1 a gagné!")
+func playTurn(card: Card):
+	var numberOfPlayerCards = currentEnvironment.numberOfCardsPlayers[currentEnvironment.playerOnTurn];
+	
+	if card == null:
+		numberOfPlayerCards += 1 if currentEnvironment.totalDraw == 0 else currentEnvironment.totalDraw
+		currentEnvironment.numberOfCardsPlayers[currentEnvironment.playerOnTurn] = numberOfPlayerCards
+		currentEnvironment.totalDraw = 0
+		nextPlayer()
+		pause = false
 		return
-	elif player_cards_2.deck.size() == 0:
-		print("Le joueur 2 a gagné!")
-		return
+	
+	numberOfPlayerCards -= 1
+	
+	if numberOfPlayerCards == 0:
+		print("Player ", currentEnvironment.playerOnTurn, " wins!")
+		winner = true
+		
+	currentEnvironment.numberOfCardsPlayers[currentEnvironment.playerOnTurn] = numberOfPlayerCards
+	
+	print("** Player ", currentEnvironment.playerOnTurn, " played a card **")
+	card.print()
+	print("")
+	
+	if card.type == Card.CardType.DRAW_TWO:
+		currentEnvironment.totalDraw += 2
+		card.active = true
+		
+	elif card.type == Card.CardType.WILD_DRAW_FOUR:
+		currentEnvironment.totalDraw += 4
+		card.active = true
+	
+	used_cards.addCardToDeck(card)
+	processCard(card)
+	pause = false
+
+func processCard(card: Card) -> void:
+	available_cards.updateRemainingLabel()
 	
 	if available_cards.deck.size() < 4:
 		cards_dealer.reshuffleCards()
 		available_cards.updateRemainingLabel()
 	
-	if current_card == null:
-		player1_turn = !player1_turn
-		return
+	currentEnvironment.numberOfAvailableCards = available_cards.deck.size()
+	currentEnvironment.lastCard = card
 	
-	if current_card.type == Card.CardType.REVERSE or current_card.type == Card.CardType.SKIP: 
-		return
+	if card.type == Card.CardType.REVERSE:
+		reverse = !reverse
 	
-	player1_turn = !player1_turn
-
-func playTurn(player) -> Card:
-	var last_card = used_cards.getLastCard()
-	
-	var chosen_card: Card = player.play(last_card, 6, available_cards.deck.size(), totalDraw)
-	if chosen_card == null:
-		totalDraw = 0
+	if card.type == Card.CardType.SKIP:
+		nextPlayer()
+		nextPlayer()
 		return
 		
-	chosen_card.print()
-	if chosen_card.type == Card.CardType.DRAW_TWO:
-		totalDraw += 2
-		chosen_card.active = true
-		
-	elif chosen_card.type == Card.CardType.WILD_DRAW_FOUR:
-		totalDraw += 4
-		chosen_card.active = true
-		
-	used_cards.addCardToDeck(chosen_card)
+	nextPlayer()
 	
-	return chosen_card
-
-# vérifier si l'action est valide
-func allowAction(chosen_card, last_card) -> bool:
-	# vérifier le couleur
-	if chosen_card.color == last_card.color:
-		return true
-	# vérifier si les num sont correspondants(si les deux sont de type NUMBER)
-	if chosen_card.type == Card.CardType.NUMBER and last_card.type == Card.CardType.NUMBER:
-		if chosen_card.value == last_card.value:
-			return true
-	# vérifier si il est WILD ou WILD_DRAW_FOUR
-	if chosen_card.type == Card.CardType.WILD or chosen_card.type == Card.CardType.WILD_DRAW_FOUR:
-		return true
-	# vérifier SKIP, REVERSE, DRAW_TWO ou les restes...
-	if chosen_card.type == last_card.type:
-		return true
-	return false
+func nextPlayer():
+	var currentPlayer = currentEnvironment.playerOnTurn
+	var nextPlayer: int
 	
-
-
-func _on_button_pressed() -> void:
-	pass # Replace with function body.
+	if reverse:
+		nextPlayer = currentPlayer - 1
+		if nextPlayer == -1:
+			nextPlayer = numberOfPlayers - 1;
+	else:
+		nextPlayer = currentPlayer + 1
+		if nextPlayer == numberOfPlayers:
+			nextPlayer = 0;
+	
+	currentEnvironment.playerOnTurn = nextPlayer
