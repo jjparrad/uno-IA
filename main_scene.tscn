@@ -2,18 +2,18 @@
 
 [ext_resource type="Texture2D" uid="uid://b01fe7efu8yh4" path="res://assets/table.png" id="1_q5c5x"]
 [ext_resource type="PackedScene" uid="uid://c41ym3qrax1x1" path="res://cards_dealer.tscn" id="1_rev5k"]
-[ext_resource type="Texture2D" uid="uid://b8ldaa22mrf4n" path="res://assets/background.jpg" id="1_yypmx"]
+[ext_resource type="Texture2D" uid="uid://b8ldaa22mrf4n" path="res://background.jpg" id="1_yypmx"]
 [ext_resource type="PackedScene" uid="uid://b8667auin1fou" path="res://game_manager.tscn" id="2_qhqdo"]
 [ext_resource type="PackedScene" uid="uid://dm6svmnqhmt3j" path="res://cpu_player.tscn" id="3_lmmgj"]
 [ext_resource type="Script" path="res://game_manager.gd" id="4_pefff"]
 [ext_resource type="PackedScene" uid="uid://cp7teq4spu75h" path="res://cards.tscn" id="4_wuyp8"]
 [ext_resource type="Texture2D" uid="uid://bkb5wp0hb273m" path="res://assets/robot2.png" id="8_5wrfc"]
-[ext_resource type="Texture2D" uid="uid://b1mky5xhwc6og" path="res://assets/robot1.webp" id="8_6ikrm"]
+[ext_resource type="Texture2D" uid="uid://b1mky5xhwc6og" path="res://robot1.webp" id="8_6ikrm"]
 [ext_resource type="Script" path="res://strategy1.gd" id="9_mb3kq"]
 [ext_resource type="Script" path="res://strategy2.gd" id="11_yre2y"]
-[ext_resource type="StyleBox" uid="uid://bsear4vfhb7t8" path="res://assets/button_styles/button_focus_style.tres" id="12_k6em7"]
-[ext_resource type="StyleBox" uid="uid://ic2w5brr4vqu" path="res://assets/button_styles/button_hover_style.tres" id="13_a4aow"]
-[ext_resource type="StyleBox" uid="uid://totw0j1lhp3u" path="res://assets/button_styles/button_style.tres" id="14_d75qd"]
+[ext_resource type="StyleBox" uid="uid://bsear4vfhb7t8" path="res://button_styles/button_focus_style.tres" id="12_k6em7"]
+[ext_resource type="StyleBox" uid="uid://ic2w5brr4vqu" path="res://button_styles/button_hover_style.tres" id="13_a4aow"]
+[ext_resource type="StyleBox" uid="uid://totw0j1lhp3u" path="res://button_styles/button_style.tres" id="14_d75qd"]
 
 [sub_resource type="GDScript" id="GDScript_5txys"]
 script/source = "extends Sprite2D
@@ -64,10 +64,10 @@ cardsPerPlayer = 6
 [node name="CPU Player" parent="." instance=ExtResource("3_lmmgj")]
 position = Vector2(-463, -210)
 metadata/_edit_group_ = true
-metadata/_edit_lock_ = true
 
 [node name="Player cards" parent="CPU Player" instance=ExtResource("4_wuyp8")]
-position = Vector2(0, -500)
+position = Vector2(0, -430)
+offsetBetweenCards = 30
 
 [node name="Sprite2D" type="Sprite2D" parent="CPU Player"]
 position = Vector2(34, 37.2583)
@@ -80,10 +80,10 @@ script = ExtResource("9_mb3kq")
 [node name="CPU Player 2" parent="." instance=ExtResource("3_lmmgj")]
 position = Vector2(440, -218)
 metadata/_edit_group_ = true
-metadata/_edit_lock_ = true
 
 [node name="Player cards" parent="CPU Player 2" instance=ExtResource("4_wuyp8")]
-position = Vector2(0, -500)
+position = Vector2(0, -430)
+offsetBetweenCards = 30
 
 [node name="Sprite2D" type="Sprite2D" parent="CPU Player 2"]
 scale = Vector2(0.121333, 0.121333)
