@@ -2,6 +2,9 @@ extends Node2D
 
 @export var playerName: String
 @export var id: int
+@export var minThinkingTime: float = 2
+@export var maxThinkingTime: float = 5
+
 var manager: Node
 var cards: Node2D
 
@@ -54,8 +57,7 @@ func _process(delta: float) -> void:
 	
 func think() -> void:
 	thinkingStart = Time.get_ticks_msec()
-	#thinkingTime = rng.randf_range(0.5, 1.5)
-	thinkingTime = rng.randf_range(5, 8)
+	thinkingTime = rng.randf_range(minThinkingTime, maxThinkingTime)
 	return
 	
 func draw(numberOfCards: int) -> void:

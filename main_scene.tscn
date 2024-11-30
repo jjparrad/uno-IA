@@ -129,6 +129,6 @@ offset_top = -200.0
 offset_right = 75.0
 offset_bottom = -140.0
 theme = SubResource("Theme_m3vde")
-text = "Next"
+text = "Start"
 
 [connection signal="pressed" from="Button" to="Game manager" method="handleNextClick"]
